@@ -773,20 +773,20 @@ mandatory."""
                 "--output-filename", output_filename, " for standalone mode"
             )
 
-        output_dir = os.path.join(
-            getOutputDir(), os.path.dirname(output_filename) or "."
-        )
+        output_filename_dir = os.path.dirname(output_filename)
+        if output_filename_dir:
+            output_dir = os.path.join(getOutputDir(), output_filename_dir)
 
-        if not os.path.isdir(output_dir):
-            Tracing.options_logger.sysexit(
-                """\
+            if not os.path.isdir(output_dir):
+                Tracing.options_logger.sysexit(
+                    """\
 Error, specified output directory does not exist, you have to create \
 it before using it: '%s' (from --output-filename='%s')."""
-                % (
-                    getNormalizedPath(output_dir),
-                    output_filename,
+                    % (
+                        getNormalizedPath(output_dir),
+                        output_filename,
+                    )
                 )
-            )
 
     if isLinux():
         if len(getLinuxIconPaths()) > 1:
